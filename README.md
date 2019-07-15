@@ -42,3 +42,7 @@
 
 - Stop all containers
     `docker container stop {container ID's sep wwith , }`
+
+- Remove them all
+    List them `docker container ls -a`
+    Remove them `docker container rm {container ID's sep with , }`
