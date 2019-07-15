@@ -39,3 +39,6 @@
 
 - Check all
     `docer container ls` should return procces running all these containers
+
+- Stop all containers
+    `docker container stop {container ID's sep wwith , }`
