@@ -1,4 +1,4 @@
-# Docker Container
+# Docker Container Tutorials
 ### What happens in 'docker container run'
 - Looks for image locally in image cache, doesn't find anything.
 - Then looks in remote image repository (defaults to Docker Hub).
@@ -79,4 +79,15 @@
 #### Docker stats
 - Docker stats
     `docker container stats` will give us live streaming view of live performance data for all containers.
+
+### Getting a shell inside containers
+- Start a new container interacively
+    `docker container run -it`
+    `-t` pseudo-tty simulates a real terminal, like what SSH does.
+    `-i` interactive session open to recieve teminal input
+- Getting a shell inside a new container
+    `docker container run -it --name proxy nginx bash`
+- Run additional commands/get shell in existing container
+    `docker container exec -it proxy bash`
+    proxy the container name and bash the shell
 
