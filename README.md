@@ -46,3 +46,37 @@
 - Remove them all
     List them `docker container ls -a`
     Remove them `docker container rm {container ID's sep with , }`
+
+# What's going on in containers
+- `docker container top` proccess list in one container.
+- `docker container inspect` details of on container config.
+- `docker container stats` performance stats for all containers.
+
+## Let's try these commands
+- Start nginx 
+    `docker container run -d --name nginx nginx` will fetch from images locally if the images is not removed.
+
+- Start mysql
+    `docker container run -d --name mysql -e MYSQL_RANDOM_ROOT_PASSWORD=true mysql` will fetch from images locally if the images is not removed.
+
+ - List containers
+    `docker container ls`
+
+### Docker top
+- Docker Top on mysql
+    `docker container top mysql` -> will return running proccesses inside the container
+
+- Docker Top on nginx
+    `docker container top mysql` -> will return running proccesses inside the container
+
+### Docker inspect
+- Docker inspect on mysql
+    `docker container inspect mysql` -> this will return json format metadata of the mysql container (startup config, volumes, networking etc.)
+
+- Docker inspect on nginx
+    `docker container inspect nginx` -> this will return json format metadata of the nginx container (startup config, volumes, networking etc.)
+
+### Docker stats
+- Docker stats
+    `docker container stats` will give us live streaming view of live performance data for all containers.
+
