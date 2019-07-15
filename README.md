@@ -1,5 +1,5 @@
 # Docker Container Tutorials
-### What happens in 'docker container run'
+## What happens in 'docker container run'
 - Looks for image locally in image cache, doesn't find anything.
 - Then looks in remote image repository (defaults to Docker Hub).
 - Downlaods the latest version (nginx:latest by default).
@@ -92,4 +92,70 @@
     proxy the container name and bash the shell
 
 ### Docker network concepts
+- Review of `docker container -p`
+- For local dev/testing, networks usually "just work"
+- Quick port check with `docker container port <container name>`
+- Learn concepts of Docker Networking
+- Understand how networks packets move around Docker
 
+#### Docker networks defaults
+- Each container connect to a private virtual network "bridge"
+- Each virtual network routes through NAT firewall on host IP
+- All containers on virtual netwrok can talk to each other without `-p`
+- If we want specific containers to talk to each other inside our host we don't really need the `-p` option.
+- Best practce is to create a new virtual network for each app
+    - network "my_web" for mysql and php/apache containers
+    - network "my_api" for mongo and nodejs containers
+- Attach containers to more then one virtual networks (or none)
+- Skip virtual network and use host IP (`--net=host`)
+- Use different Docker network drivers to gain new abilities and much more ...
+
+#### Docker network practice
+- `-p` --publish
+- Remember publishing ports are always in **HOST:CONTAINER** format
+- Let's run nginx 
+    - `docker container run -p 80:80 --name webhost -d nginx`
+- Let's run the port command on nginx
+    - `docker container port webhost`
+    returns -> `80/tcp -> 0.0.0.0:80`
+- Containers IP address
+    we can find the ip address of any container with this command `docker container inspect --format '{{.NetworkSettings.IPAddress}}' webhost`
+    where webhost is the name of the container
+
+### Docerk Network CLI Managment
+- show networks `docker network ls`
+- inspect a network `docker network inspect`
+- Attach a network to container `docker network create --driver`
+- Detach a netwrok from container `deocker network disconnect`
+#### Docker Network Default Security
+- Create your apps so frontend/backend sit on same Docker network
+- Their inter-communication never leaves host
+- All externally exposed ports closed by default
+- You must manually expose via `-p`, which is better default security
+- This gets even better later with swarm and Overlay netwroks
+
+#### Docker Networks DNS
+- Understand how DNS is the key to easy inter-container communication
+- See how it works by default with custom netwrorks
+- Learn how to use `--link` to enable DNS on default bridge network
+- Docker deamon has a buil-in DNS server that containers use by default
+- Containers shouldn't rely on IP's for inter-communication
+- DNS for friendly names is built-in if you use custom networks
+- This gets way easier with Docker Compose in future section
+
+## Practice 
+###  Task 01
+- Use different linux distro containers to check `curl` cli tool version
+- Use two different terminal window to start bash in both `centos:7` and `ubuntu:14.04`, using `-it`
+- Learn `docker container --rm` option so you can save cleanup
+- Ensure `curl` is installed on latest version for that distro
+    - Ubuntu: `apt-get update && apt-get install curl`
+    - centos: `yum update curl`
+- Check `curl --version`
+
+#### Solution
+- CentOS
+    - `docker container run --rm -it centos:7 bash` once inside a shell, intall curl `yum update curl` & run `curl --version`
+- Ubunutu
+    - `docker container run --rm  -it ubuntu:14.04 bash` once insde a shell, install curl `apt-get update && apt-get install curl` & run `curl --version`
+- `--rm` is used when we need to do a temporary task like testing or getting a shell for a while for some task to be done, once we exit the shell the container is gone we can verify this by running `docker container ls`
