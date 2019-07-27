@@ -159,3 +159,13 @@
 - Ubunutu
     - `docker container run --rm  -it ubuntu:14.04 bash` once insde a shell, install curl `apt-get update && apt-get install curl` & run `curl --version`
 - `--rm` is used when we need to do a temporary task like testing or getting a shell for a while for some task to be done, once we exit the shell the container is gone we can verify this by running `docker container ls`
+
+# Docker Images Tutorials
+## What's in an image (what isn't)
+- App binaries and dependencies
+- Metadata about the image data and how to run the image
+- Official definition: "An image is an ordered coolection of root filesystem changes and the corresponding execution parameters for use within a container runtime"
+- Not a complete OS. No kernal, kernal modules (e.g drivers)
+- Small as one file (your app binary) like a golang static binary
+- Big as a ubuntu distro with apt, and Apache, PHP and more installed
+### The mighty hub
